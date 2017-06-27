@@ -32,6 +32,12 @@ pip install matplotlib
 pip install numpy
 ```
 
+Get the data:
+
+```shell
+curl -o data/basic4.zip https://dal.objectstorage.open.softlayer.com/v1/AUTH_cdbef52bdf7a449c96936e1071f0a46b/simsignals_basic_v2/basic4.zip
+```
+
 Run the examples:
 
 ```shell

@@ -2,6 +2,12 @@
 
 ## basic4.zip 
 
+This is a 1.16 Gb file. It currently lives at `https://dal.objectstorage.open.softlayer.com/v1/AUTH_cdbef52bdf7a449c96936e1071f0a46b/simsignals_basic_v2/basic4.zip`. To get this on your machine use:
+
+```shell
+curl -o data/basic4.zip https://dal.objectstorage.open.softlayer.com/v1/AUTH_cdbef52bdf7a449c96936e1071f0a46b/simsignals_basic_v2/basic4.zip
+```
+
 The `basic4.zip` contains a list of .dat files. Each of these .dat files is on the order of a few kilobytes. It is just a bunch of bytes. If you try to open this in an editor, it will be gibberish. The best way to read this data is to use the `ibmseti` library. More about that below.
 
 Each .dat file represents a spectrogram. These are uniquely identified by "unique ids" or uuids. This set is already classfied, so we know the label of each spectrogram by its uuid. This data is located in `public_list_basic_v2_26may_2017.csv`. 

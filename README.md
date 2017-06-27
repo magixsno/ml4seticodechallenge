@@ -1,11 +1,13 @@
 # ML4SETI - BMS
 
+## Contents
+
 This project contains:
 
-classifiers - Directory where classifiers live. 
-data - Directory where data live.
-img - Directory where images for the readme live.
-processors - Directory where signal processors live.
+* classifiers - Directory where classifiers live. 
+* data - Directory where data live.
+* img - Directory where images for the readme live.
+* processors - Directory where signal processors live.
 
 ## Contributing conventions
 

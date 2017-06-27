@@ -6,21 +6,21 @@ This is where signal processors live. Signal processors take the spectrograms an
 
 The basic4 data set has 4 different classifications:
 
+A signal that changes in frequency linearly with time:
+
 ![Narrowband](img/narrowband.png "Narrowband")
 
-A signal that changes in frequency linearly with time.
+A signal that changes in frequency quadratically with time:
 
 ![Narrowbandddr](img/narrowbandddr.png "Narrowbandddr")
 
-A signal that changes in frequency quadratically with time.
+A signal that wanders randomly through close frequencies:
 
 ![Squiggle](img/squiggle.png "Squiggle")
 
-A signal that wanders randomly through close frequencies.
+No signal found:
 
 ![Noise](img/noise.png "Noise")
-
-No signal found.
 
 Therefore, in processing the goal is to amplify this signal whatever methods you can.
 

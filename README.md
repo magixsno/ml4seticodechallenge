@@ -21,17 +21,14 @@ This project contains:
 Please install all necessary libraries:
 
 ```shell
-
 pip install --user --upgrade ibmseti
 ```
 
 ```shell
-
 pip install matplotlib
 ```
 
 ```shell
-
 pip install numpy
 ```
 

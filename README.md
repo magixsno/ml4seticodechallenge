@@ -2,6 +2,23 @@
 
 ## Contents
 
+### Get the contents
+
+Open a new terminal window.
+Download contents:
+
+```shell
+git clone http://tech-deity@pluto.bmsis.org/tech-deity/ml4seti.git
+```
+
+Move working directory to base:
+
+```shell
+cd ml4seti
+```
+
+### What is here
+
 This project contains:
 
 * classifiers - Directory where classifiers live. 

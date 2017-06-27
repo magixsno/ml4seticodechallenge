@@ -23,7 +23,6 @@ This is a library released by seti and ibm that contains built-in functions for 
 Use the command below to install ibmseti on your machine.
 
 ```shell
-
 pip install --user --upgrade ibmseti
 ```
 

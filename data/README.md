@@ -1,5 +1,19 @@
 # Data
 
+## Getting the new data sets
+
+In this folder you'll find a script for installing the larger data sets. To use this script, use `sh download_data` followed by either `s` - meaning small, `m` - meaning medium, `l` - meaning large, or `a` - meaning all. Please note *the large data set is 50 GB*. Medium is 10 GB. Small is 2 GB. Please have proper space on your harddrive for this download.
+
+Example usages:
+
+```shell
+sh download_data s
+```
+
+```shell
+sh download_data a
+```
+
 ## basic4.zip 
 
 This is a 1.16 Gb file. It currently lives at `https://dal.objectstorage.open.softlayer.com/v1/AUTH_cdbef52bdf7a449c96936e1071f0a46b/simsignals_basic_v2/basic4.zip`. To get this on your machine use:
@@ -15,6 +29,7 @@ Each .dat file represents a spectrogram. These are uniquely identified by "uniqu
 ## public_list_basic_v2_26may_2017.csv
 
 This is a CSV with the first column representing the uuids and the second column representing the label for the spectrogram.
+
 
 ## ibmseti
 

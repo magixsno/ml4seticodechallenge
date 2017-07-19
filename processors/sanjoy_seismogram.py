@@ -16,9 +16,12 @@ import zipfile
 
 from obspy.core import read
 from obspy.signal.trigger import classic_sta_lta
-from obspy.signal.trigger import plot_trigger 
+from obspy.signal.trigger import plot_trigger
 from astropy.convolution import convolve, Box1DKernel
 from scipy import ndimage
+
+import PIL
+from PIL import Image
 
 '''
 IF YOU ARE RUNNING A NEWER VERSION OF MATPLOTLIB THIS CODE WILL NOT RUN:
@@ -33,49 +36,62 @@ python processors/sanjoy_seismogram.py
 
 # Find the data in the zip file
 mydatafolder = 'data'
+output_folder = 'data_out'
 zz = zipfile.ZipFile(os.path.join(mydatafolder, 'basic4.zip'))
 basic4list = zz.namelist()
-firstfile = basic4list[1400]
 
-# Read data into ibmseti object
-aca = ibmseti.compamp.SimCompamp(zz.open(firstfile).read())
+for uuid in basic4list:
+	# Read data into ibmseti object
+	aca = ibmseti.compamp.SimCompamp(zz.open(uuid).read())
 
-# Get the raw complex data
-complex_data = aca.complex_data()
-complex_data = complex_data.reshape(32, 6144)
-cpfft = np.fft.fftshift( np.fft.fft(complex_data), 1)
-spectrogram = np.abs(cpfft)**2
+	# Get the raw complex data
+	complex_data = aca.complex_data()
+	complex_data = complex_data.reshape(32, 6144)
+	cpfft = np.fft.fftshift( np.fft.fft(complex_data), 1)
+	spectrogram = np.abs(cpfft)**2
 
-# Create a new empty spectrogram to contain the smooth spedtrogram values
-smoothedspectro=np.zeros(np.shape(spectrogram))
+	# Create a new empty spectrogram to contain the smooth spedtrogram values
+	smoothedspectro=np.zeros(np.shape(spectrogram))
 
-# Apply seismogram filtering to data
-for i in range(np.shape(spectrogram)[0]):
-	background = convolve(spectrogram[i], Box1DKernel(100))
-	smoothedspectro[i]=spectrogram[i] - background
-	df = 20
-	cft = classic_sta_lta(smoothedspectro[i], int(5 * df), int(10 * df))
-	indices_ut = np.where(cft>1.7)
-	indices_ut = list(indices_ut[0])
-	indices_lt = np.where(cft<0.2)
-	indices_lt  = list(indices_lt[0])
-	indices = indices_ut + indices_lt
-	indices_zero = range(0,6144)
-	indices_zero = list(set(indices_zero) - set(indices)) #NOTE I (mohit) got rid of the for loop here for speed 
-	smoothedspectro[i][indices_zero] = 0
-	smoothedspectro[i][indices_ut] = 1
-	smoothedspectro[i][indices_lt] = 1
-	smoothedspectro[i][:500] = 0
+	# Apply seismogram filtering to data
+	for i in range(np.shape(spectrogram)[0]):
+		background = convolve(spectrogram[i], Box1DKernel(100))
+		smoothedspectro[i]=spectrogram[i] - background
+		df = 20
+		cft = classic_sta_lta(smoothedspectro[i], int(5 * df), int(10 * df))
+		indices_ut = np.where(cft>1.7)
+		indices_ut = list(indices_ut[0])
+		indices_lt = np.where(cft<0.2)
+		indices_lt  = list(indices_lt[0])
+		indices = indices_ut + indices_lt
+		indices_zero = range(0,6144)
+		indices_zero = list(set(indices_zero) - set(indices)) #NOTE I (mohit) got rid of the for loop here for speed
+		smoothedspectro[i][indices_zero] = 0
+		smoothedspectro[i][indices_ut] = 1
+		smoothedspectro[i][indices_lt] = 1
+		smoothedspectro[i][:500] = 0
 
-# Binarize the image
-ndimage.binary_erosion(np.asarray(smoothedspectro), structure=np.ones((100,100))).astype(np.int)
-spectrogram = smoothedspectro
-    
-# Plot spectrogram
-fig, ax = plt.subplots(figsize=(10, 5))
-cmap = plt.cm.get_cmap("binary")
-ax.imshow(spectrogram, cmap=cmap,aspect = 0.5*float(spectrogram.shape[1]) / spectrogram.shape[0])
-ax.set_axis_off()
+	# Binarize the image
+	ndimage.binary_erosion(np.asarray(smoothedspectro), structure=np.ones((100,100))).astype(np.int)
+	spectrogram = smoothedspectro
 
-# Display spectrogram
-plt.show()
+	# Plot spectrogram
+	fig, ax = plt.subplots(figsize=(10, 5))
+	cmap = plt.cm.get_cmap("binary")
+	ax.imshow(spectrogram, cmap=cmap,aspect = 0.5*float(spectrogram.shape[1]) / spectrogram.shape[0])
+	ax.set_axis_off()
+
+	# Save as PNG
+	filename = uuid + ".png"
+	if not os.path.exists(output_folder):
+		os.makedirs(output_folder)
+
+	fig.savefig( os.path.join(output_folder, filename) )
+	plt.close(fig)
+
+	basewidth = 128
+	img = Image.open(os.path.join(output_folder, filename))
+	wpercent = (basewidth/float(img.size[0]))
+	hsize = int((float(img.size[1])*float(wpercent)))
+	img = img.resize((basewidth,hsize), PIL.Image.ANTIALIAS)
+	img.save(os.path.join(output_folder, filename))

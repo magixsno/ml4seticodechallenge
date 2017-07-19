@@ -37,16 +37,16 @@ complex_data = complex_data * np.hanning(complex_data.shape[1])
 cpfft = np.fft.fftshift( np.fft.fft(complex_data), 1)
 spectrogram = np.abs(cpfft)**2
 
-# Create a new empty spectrogram to contain the smooth spedtrogram values
+# Create a new empty spectrogram to contain the smooth spectrogram values
 smoothedspectro = np.zeros(np.shape(spectrogram))
 filteredspectro = np.zeros(np.shape(spectrogram))
+
+# Define parameters
 signalfill = 999999.999
 width = 30
 
-# Apply seismogram filtering to data
+# Find maximum at each row and fill at maximum +/- width with signal
 for i in range( np.shape( spectrogram )[0] ):
-	#background = convolve(spectrogram[i], Box1DKernel(100))
-	#smoothedspectro[i] = spectrogram[i] - background
 	rowind = np.where( spectrogram[i] == spectrogram[i].max() )
 	filteredspectro[i][rowind[0]] = signalfill
 

@@ -25,8 +25,7 @@ from scipy import ndimage
 mydatafolder = 'data'
 zz = zipfile.ZipFile(os.path.join(mydatafolder, 'basic4.zip'))
 basic4list = zz.namelist()
-#firstfile = basic4list[1400]
-firstfile = basic4list[1220]
+firstfile = basic4list[1400]
 
 # Read data into ibmseti object
 aca = ibmseti.compamp.SimCompamp(zz.open(firstfile).read())

@@ -71,9 +71,6 @@ for uuid in basic4list:
 		smoothedspectro[i][indices_lt] = 1
 		smoothedspectro[i][:500] = 0
 
-	# Binarize the image
-	ndimage.binary_erosion(np.asarray(smoothedspectro), structure=np.ones((100,100))).astype(np.int)
-
 	# Clean the signal
 	smoothedspectro = ndimage.binary_closing(np.asarray(smoothedspectro), structure=np.ones((4,4))).astype(np.int)
 

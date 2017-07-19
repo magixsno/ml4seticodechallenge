@@ -61,8 +61,7 @@ for i in range(np.shape(spectrogram)[0]):
 	indices_lt  = list(indices_lt[0])
 	indices = indices_ut + indices_lt
 	indices_zero = range(0,6144)
-	for j in indices:
-    		indices_zero.remove(j)
+	indices_zero = list(set(indices_zero) - set(indices)) #NOTE I (mohit) got rid of the for loop here for speed 
 	smoothedspectro[i][indices_zero] = 0
 	smoothedspectro[i][indices_ut] = 1
 	smoothedspectro[i][indices_lt] = 1

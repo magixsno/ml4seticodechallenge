@@ -44,8 +44,8 @@ filteredspectro = np.zeros(np.shape(spectrogram))
 signalfill = 999999.999
 width = 15
 delta = 300
-noisetol = 0.3
-indtol   = 10
+noisetol = 0.5
+indtol   = 50
 
 # Apply seismogram filtering to data
 for i in range( np.shape( spectrogram )[0] ):
@@ -74,8 +74,18 @@ for i in range( np.shape( spectrogram )[0] ):
 				filteredspectro[i][rowind[0]] = signalfill
 				indexes = np.append( rowind, indexes )
 
+	blockflag = 0
+	whiteflag = 0
+	for j in range( np.shape( filteredspectro )[1] ):
+		if( ( filteredspectro[i][j] > 0 ) and ( blockflag == 0 ) ):
+			blockflag = j
+		if( ( filteredspectro[i][j] == 0 ) and ( blockflag > 0 ) and ( whiteflag == 0 ) ):
+			whiteflag = j
+		if( ( filteredspectro[i][j] > 0 ) and ( whiteflag > 0 ) ):
+			for k in range( blockflag, whiteflag, 1 ):
+				filteredspectro[i][k] = signalfill
+				whiteflag = 0
 
-	#rowmax = max( spectrogram[i] )
 
 # Binarize the image
 #ndimage.binary_erosion(np.asarray(smoothedspectro), structure=np.ones((100,100))).astype(np.int)

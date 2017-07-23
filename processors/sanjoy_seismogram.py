@@ -97,7 +97,7 @@ for uuid in basic4list:
 	fig.savefig( os.path.join(output_folder, filename) )
 	plt.close(fig)
 
-	basewidth = 128
+	basewidth = 28
 	img = Image.open(os.path.join(output_folder, filename))
 	wpercent = (basewidth/float(img.size[0]))
 	hsize = int((float(img.size[1])*float(wpercent)))

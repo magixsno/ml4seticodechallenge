@@ -34,10 +34,12 @@ e = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_5.zip'))
 datalist = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
 #firstfile = basic4list[52]
 output_folder = 'data_out/jacob_gameoflife'
+count = 0
 for uuid in datalist:
-
+	if count % 100 == 0:
+		print str(count/len(datalist)) * 100 + "%"
+	count += 1
 	# Read data into ibmseti object
-	print uuid[-3:]
 	if uuid[-3:] != 'dat':
 		continue
 	# Read data into ibmseti object

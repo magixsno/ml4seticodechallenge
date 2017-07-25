@@ -44,12 +44,12 @@ b = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_2.zip'))
 c = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_3.zip'))
 d = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_4.zip'))
 e = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_5.zip'))
-basic4list = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
+datalist = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
 
 count = 0
-for uuid in basic4list:
+for uuid in datalist:
 	if count % 100 == 0:
-		print str(count/len(datalist)) * 100 + "%"
+		print str(count/len(datalist) * 100) + "%"
 	count += 1
 	if uuid[-3:] != 'dat':
 		continue

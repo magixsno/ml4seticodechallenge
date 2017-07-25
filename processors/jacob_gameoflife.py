@@ -66,15 +66,15 @@ output_folder = 'data_out/jacob_gameoflife'
 
 count = 0
 for uuid in datalist:
-	if count % 100 == 0:
-		print str(count/len(datalist) * 100) + "%"
-	count += 1
+    if count % 100 == 0:
+	print str(count/len(datalist) * 100) + "%"
+    count += 1
     # Read data into ibmseti object
-	if uuid[-3:] != 'dat':
-		continue
+    if uuid[-3:] != 'dat':
+        continue
 	# Read data into ibmseti object
-        dat_file = open(mydatafolder + "/" + uuid, "rw")
-	aca = ibmseti.compamp.SimCompamp(dat_file.read())
+    dat_file = open(mydatafolder + "/" + uuid, "rw")
+    aca = ibmseti.compamp.SimCompamp(dat_file.read())
 
     # Get the raw complex data
     complex_data = aca.complex_data()
@@ -125,7 +125,7 @@ for uuid in datalist:
     # Display spectrogram
     #plt.show()
     filename = uuid.split('.')[0] + ".png"
-	if not os.path.exists(output_folder):
-		os.makedirs(output_folder)
-	fig.savefig( os.path.join(output_folder, os.path.basename(filename)) )
-	plt.close(fig)
+    if not os.path.exists(output_folder):
+	os.makedirs(output_folder)
+    fig.savefig( os.path.join(output_folder, os.path.basename(filename)) )
+    plt.close(fig)

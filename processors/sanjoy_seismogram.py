@@ -46,10 +46,8 @@ d = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_4.zip'))
 e = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_5.zip'))
 basic4list = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
 
-basic4list = basic4list[0:10]
 
 for uuid in basic4list:
-	print uuid[-3:]
 	if uuid[-3:] != 'dat':
 		continue
 	# Read data into ibmseti object

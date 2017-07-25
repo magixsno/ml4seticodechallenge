@@ -46,8 +46,11 @@ d = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_4.zip'))
 e = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_5.zip'))
 basic4list = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
 
-
+count = 0
 for uuid in basic4list:
+	if count % 100 == 0:
+		print str(count/len(datalist)) * 100 + "%"
+	count += 1
 	if uuid[-3:] != 'dat':
 		continue
 	# Read data into ibmseti object
@@ -100,6 +103,6 @@ for uuid in basic4list:
 	filename = uuid + ".png"
 	if not os.path.exists(output_folder):
 		os.makedirs(output_folder)
-	
+
 	fig.savefig( os.path.join(output_folder, os.path.basename(filename)))
 	plt.close(fig)

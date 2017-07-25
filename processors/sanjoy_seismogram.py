@@ -35,10 +35,15 @@ python processors/sanjoy_seismogram.py
 
 
 # Find the data in the zip file
-mydatafolder = 'data'
-output_folder = 'data_out'
-zz = zipfile.ZipFile(os.path.join(mydatafolder, 'basic4.zip'))
-basic4list = zz.namelist()
+mydatafolder = 'primary_medium'
+output_folder = 'data_out/sanjoy_seismogram'
+a = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_1.zip'))
+b = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_2.zip'))
+c = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_3.zip'))
+d = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_4.zip'))
+e = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_5.zip'))
+
+basic4list = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
 
 for uuid in basic4list:
 	# Read data into ibmseti object
@@ -93,10 +98,3 @@ for uuid in basic4list:
 
 	fig.savefig( os.path.join(output_folder, filename) )
 	plt.close(fig)
-
-	basewidth = 28
-	img = Image.open(os.path.join(output_folder, filename))
-	wpercent = (basewidth/float(img.size[0]))
-	hsize = int((float(img.size[1])*float(wpercent)))
-	img = img.resize((basewidth,hsize), PIL.Image.ANTIALIAS)
-	img.save(os.path.join(output_folder, filename))

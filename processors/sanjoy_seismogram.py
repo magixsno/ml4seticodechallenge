@@ -7,6 +7,8 @@ import ibmseti
 import io
 import json
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import obspy
 import os
@@ -42,12 +44,17 @@ b = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_2.zip'))
 c = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_3.zip'))
 d = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_4.zip'))
 e = zipfile.ZipFile(os.path.join(mydatafolder, 'primary_medium_v3_5.zip'))
-
 basic4list = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
 
+basic4list = basic4list[0:10]
+
 for uuid in basic4list:
+	print uuid[-3:]
+	if uuid[-3:] != 'dat':
+		continue
 	# Read data into ibmseti object
-	aca = ibmseti.compamp.SimCompamp(zz.open(uuid).read())
+        dat_file = open(mydatafolder + "/" + uuid, "rw")
+	aca = ibmseti.compamp.SimCompamp(dat_file.read())
 
 	# Get the raw complex data
 	complex_data = aca.complex_data()
@@ -95,6 +102,6 @@ for uuid in basic4list:
 	filename = uuid + ".png"
 	if not os.path.exists(output_folder):
 		os.makedirs(output_folder)
-
-	fig.savefig( os.path.join(output_folder, filename) )
+	
+	fig.savefig( os.path.join(output_folder, os.path.basename(filename)))
 	plt.close(fig)

@@ -6,6 +6,8 @@ import glob
 import ibmseti
 import io
 import json
+import matplotlib
+matplotlib.use('Agg')
 import numpy as np
 import matplotlib.pyplot as plt
 import obspy
@@ -36,7 +38,12 @@ output_folder = 'data_out/jacob_fatsimplemax'
 for uuid in datalist:
 
 	# Read data into ibmseti object
-	aca = ibmseti.compamp.SimCompamp(zz.open(firstfile).read())
+	print uuid[-3:]
+	if uuid[-3:] != 'dat':
+		continue
+	# Read data into ibmseti object
+        dat_file = open(mydatafolder + "/" + uuid, "rw")
+	aca = ibmseti.compamp.SimCompamp(dat_file.read())
 
 	# Get the raw complex data
 	complex_data = aca.complex_data()
@@ -81,5 +88,5 @@ for uuid in datalist:
 	filename = uuid.split('.')[0] + ".png"
 	if not os.path.exists(output_folder):
 		os.makedirs(output_folder)
-	fig.savefig( os.path.join(output_folder, filename) )
+	fig.savefig( os.path.join(output_folder, os.path.basename(filename)) )
 	plt.close(fig)

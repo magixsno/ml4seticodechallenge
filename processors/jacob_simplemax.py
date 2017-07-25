@@ -37,7 +37,7 @@ output_folder = 'data_out/jacob_gameoflife'
 count = 0
 for uuid in datalist:
 	if count % 100 == 0:
-		print str(count/len(datalist)) * 100 + "%"
+		print str(count/len(datalist) * 100) + "%"
 	count += 1
 	# Read data into ibmseti object
 	if uuid[-3:] != 'dat':

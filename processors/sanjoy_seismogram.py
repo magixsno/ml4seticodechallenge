@@ -49,9 +49,9 @@ for uuid in datalist:
 	count += 1
 	if uuid[-3:] != 'dat':
 		continue
-		
+
 	# Read data into ibmseti object
-    dat_file = open(uuid, "rw")
+    	dat_file = open(uuid, "rw")
 	aca = ibmseti.compamp.SimCompamp(dat_file.read())
 
 	# Get the raw complex data

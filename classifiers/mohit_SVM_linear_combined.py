@@ -6,7 +6,6 @@ from sklearn import preprocessing, svm
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import roc_auc_score, classification_report
 
-%matplotlib inline
 import statsmodels.api as sm
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import confusion_matrix
@@ -26,7 +25,7 @@ from scipy import ndimage
 label_csv = pd.read_csv('public_list_primary_v3_testset_final.csv') #labels
 label_csv.index = label_csv.UUID #make ID the index
 location = 'data_out/sanjoy_seismogram_final'
-
+S
 def seismogram(dat_file):
     '''
     Sanjoy's Seismogram image processing function

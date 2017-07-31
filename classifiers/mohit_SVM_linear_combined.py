@@ -10,7 +10,6 @@ import statsmodels.api as sm
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import confusion_matrix
 
-import ibmseti
 import numpy as np
 import matplotlib.pyplot as plt
 import os

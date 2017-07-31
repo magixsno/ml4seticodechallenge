@@ -15,10 +15,6 @@ import matplotlib.pyplot as plt
 import os
 import scipy
 import zipfile
-
-from obspy.core import read
-from obspy.signal.trigger import classic_sta_lta
-from astropy.convolution import convolve, Box1DKernel
 from scipy import ndimage
 
 label_csv = pd.read_csv('public_list_primary_v3_testset_final.csv') #labels

@@ -50,7 +50,7 @@ for uuid in datalist:
 	if uuid[-3:] != 'dat':
 		continue
 	# Read data into ibmseti object
-        dat_file = open(mydatafolder + "/" + uuid, "rw")
+    dat_file = open(mydatafolder + "/" + uuid, "rw")
 	aca = ibmseti.compamp.SimCompamp(dat_file.read())
 
 	# Get the raw complex data

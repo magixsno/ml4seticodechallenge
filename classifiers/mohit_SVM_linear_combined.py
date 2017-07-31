@@ -20,7 +20,7 @@ from scipy import ndimage
 label_csv = pd.read_csv('public_list_primary_v3_testset_final.csv') #labels
 label_csv.index = label_csv.UUID #make ID the index
 location = 'data_out/sanjoy_seismogram_final'
-S
+
 def seismogram(dat_file):
     '''
     Sanjoy's Seismogram image processing function

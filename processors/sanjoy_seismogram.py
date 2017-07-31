@@ -39,7 +39,8 @@ python processors/sanjoy_seismogram.py
 # Find the data in the zip file
 mydatafolder = 'primary_testset_final_v3'
 output_folder = 'data_out/sanjoy_seismogram_final'
-datalist = a.namelist() + b.namelist() + c.namelist() + d.namelist() + e.namelist()
+a = zipfile.ZipFile(os.path.join('primary_testset_final_v3.zip'))
+datalist = a.namelist()
 
 count = 0
 for uuid in datalist:

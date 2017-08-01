@@ -191,7 +191,7 @@ for i in all_y.index:
 print(correct/float(total))'''
 
 #lets look at a confusion matrix to see where our errors are
-labels = ["brightpixel", "narrowband", "narrowbanddrd", "noise", "squarepulsednarrowband", "squiggle", "squigglesquarepulsednarrowband"]
+labels = ["NAME_COL", "brightpixel", "narrowband", "narrowbanddrd", "noise", "squarepulsednarrowband", "squiggle", "squigglesquarepulsednarrowband"]
 #cm = confusion_matrix(all_y['testY_true'], all_y['prediction'], labels=labels)
 #cm = pd.DataFrame(data=cm, columns=labels, index=labels)
 rows = []

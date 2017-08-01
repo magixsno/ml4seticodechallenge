@@ -86,7 +86,7 @@ images[images>0]=1  #convert back to binary (compression changed that)'''
 
 #machine learning!
 dirname = "data_out/sanjoy_seismogram/"
-images = [scipy.misc.imresize(scipy.ndimage.imread(dirname + filename, flatten=True), 0.05) for filename in os.listdir(dirname)[:((int)(len(os.listdir(dirname))/4))]]
+images = [scipy.misc.imresize(scipy.ndimage.imread(dirname + filename, flatten=True), 0.25) for filename in os.listdir(dirname)[:((int)(len(os.listdir(dirname))/4))]]
 #get subsets of data to test around with
 index_file = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
 classifications = {}
@@ -94,10 +94,10 @@ for index, data in index_file.iterrows():
   classifications[data['UUID'] + '.dat.png'] = data['SIGNAL_CLASSIFICATION']
 labels_true = [classifications[filename] for filename in os.listdir(dirname)]
 
-dirname_test = "data_out/sanjoy_seismogram_test/"
-images_test = [scipy.misc.imresize(scipy.ndimage.imread(dirname_test + filename, flatten=True), 0.1) for filename in os.listdir(dirname_test)]
+dirname_test = "data_out/sanjoy_seismogram_final/"
+images_test = [scipy.misc.imresize(scipy.ndimage.imread(dirname_test + filename, flatten=True), 0.25) for filename in os.listdir(dirname_test)]
 #get subsets of data to test around with
-index_file_test = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
+index_file_test = pd.read_csv(os.path.join('public_list_primary_v3_testset_final.csv'))
 classifications = {}
 for index, data in index_file.iterrows():
   classifications[data['UUID'] + '.dat.png'] = data['SIGNAL_CLASSIFICATION']
@@ -188,4 +188,4 @@ for i in all_y.index:
   rows.append(vect)
 
 df2 = pd.DataFrame(rows)
-df2.to_csv("mohit_output.csv", index=False, header=False)
+df2.to_csv('mohit_output_final.csv', index=False, header=False)

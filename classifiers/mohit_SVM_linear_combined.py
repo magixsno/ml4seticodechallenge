@@ -86,6 +86,7 @@ images[images>0]=1  #convert back to binary (compression changed that)'''
 #machine learning!
 dirname = "data_out/sanjoy_seismogram/"
 images = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
+images = [scipy.misc.imresize(image, 10) for image in images]
 #get subsets of data to test around with
 index_file = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
 classifications = {}

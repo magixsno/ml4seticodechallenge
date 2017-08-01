@@ -128,12 +128,12 @@ def change_label(x):
 labels = [change_label(l) for l in labels]
 div = len(images)
 #train test split
-trainX = images
+trainX = images[:div]
 testX = images_test
-trainY = labels
+trainY = labels[:div]
 #testY = labels_test
-trainY_true = labels_true
-#3testY_true = labels_true_test
+#trainY_true = labels_true
+#testY_true = labels_true_test
 trainX = np.stack(trainX, axis=0)
 trainX = trainX.reshape(trainX.shape[0], trainX.shape[1]*trainX.shape[2])
 testX = np.stack(testX, axis=0)

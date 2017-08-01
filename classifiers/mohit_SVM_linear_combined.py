@@ -97,6 +97,13 @@ def change_label(x):
         return 'narrowband'
     else:
         return x
+
+
+index_file = pd.read_csv('public_list_primary_v3_testset_final.csv')
+classifications = {}
+for index, data in index_file.iterrows():
+  classifications[data['UUID'] + '.png'] = data['SIGNAL_CLASSIFICATION']
+labels_true = [classifications_to_num[classifications[filename]] for filename in os.listdir(dirname)]
 labels= labels.apply(change_label)
 
 #train test split

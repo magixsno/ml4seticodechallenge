@@ -88,7 +88,7 @@ dirname = "data_out/sanjoy_seismogram"
 images = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
 #images = [tf.image.resize_images(image, [16, 16]) for image in image_list]
 #get subsets of data to test around with
-index_file = pd.read_csv(os.path.join('data', 'public_list_primary_v3_full_21june_2017.csv'))
+index_file = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
 classifications = {}
 for index, data in index_file.iterrows():
   classifications[data['UUID'] + '.png'] = data['SIGNAL_CLASSIFICATION']

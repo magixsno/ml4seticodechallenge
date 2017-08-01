@@ -104,7 +104,7 @@ def change_label(x):
     else:
         return x
 
-labels= labels.apply(change_label)
+labels= [change_label(l) for l in labels]
 
 #train test split
 trainX = images[:3000]

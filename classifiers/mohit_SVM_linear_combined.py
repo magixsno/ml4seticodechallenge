@@ -91,7 +91,7 @@ images = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
 index_file = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
 classifications = {}
 for index, data in index_file.iterrows():
-  classifications[data['UUID'] + '.png'] = data['SIGNAL_CLASSIFICATION']
+  classifications[data['UUID'] + '.dat.png'] = data['SIGNAL_CLASSIFICATION']
 labels_true = [classifications[filename] for filename in os.listdir(dirname)]
 
 labels = labels_true #make copy of originals

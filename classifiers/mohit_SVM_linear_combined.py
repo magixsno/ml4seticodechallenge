@@ -76,15 +76,17 @@ def narrow_linear_fit(image):
 
     return linear_fit, curve, X, slope, intercept, curve_std, spectrogram
 
-#split data into features (images) and classes (labels)
+'''#split data into features (images) and classes (labels)
 full_df = pd.read_csv('flattend_square.csv')
 labels_true = full_df.iloc[:, 0]
 names = full_df.iloc[:, 1]
 images = full_df.iloc[:, 2:]
-images[images>0]=1  #convert back to binary (compression changed that)
+images[images>0]=1  #convert back to binary (compression changed that)'''
 
 #machine learning!
-
+dirname = "data_out/sanjoy_seismogram_final"
+image_list = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
+images = [tf.image.resize_images(image, [16, 16]) for image in image_list]
 #get subsets of data to test around with
 labels = labels_true #make copy of originals
 

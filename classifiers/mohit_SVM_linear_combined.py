@@ -1,6 +1,7 @@
 import pandas as pd
 import cv2
 import seaborn as sb
+
 import matplotlib.pyplot as plt
 from sklearn import preprocessing, svm
 from sklearn.preprocessing import StandardScaler
@@ -19,7 +20,7 @@ from scipy import ndimage
 
 label_csv = pd.read_csv('public_list_primary_v3_testset_final.csv') #labels
 label_csv.index = label_csv.UUID #make ID the index
-location = 'data_out/sanjoy_seismogram_final'
+location = 'data_out/sanjoy_seismogram'
 
 def seismogram(dat_file):
     '''
@@ -85,8 +86,8 @@ images[images>0]=1  #convert back to binary (compression changed that)'''
 
 #machine learning!
 dirname = "data_out/sanjoy_seismogram/"
-images = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
-images = [scipy.misc.imresize(image, 10) for image in images]
+images = [scipy.ndimage.imread(dirname + filename, flatten=True) for filename in os.listdir(dirname)]
+images = [scipy.misc.imresize(image, 0.1) for image in images]
 #get subsets of data to test around with
 index_file = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
 classifications = {}
@@ -105,36 +106,40 @@ def change_label(x):
         return x
 
 labels = [change_label(l) for l in labels]
-
+div = len(images)/2
 #train test split
-trainX = images[:3000]
-testX = images[3001:]
-trainY = labels[:3000]
-testY = labels[3001:]
-trainY_true = labels_true[:3000]
-testY_true = labels_true[3001:]
-
+trainX = images[:div]
+testX = images[div:]
+trainY = labels[:div]
+testY = labels[div:]
+trainY_true = labels_true[:div]
+testY_true = labels_true[div:div]
+trainX = np.stack(trainX, axis=0)
+trainX = trainX.reshape(trainX.shape[0], trainX.shape[1]*trainX.shape[2])
+testX = np.stack(testX, axis=0)
+testX = testX.reshape(testX.shape[0], testX.shape[1]*testX.shape[2])
 #apply SVM (pretuned via grid search)
 clf = svm.SVC(C = 10, gamma=0.01)
 clf.fit(trainX, trainY)
 
+
 #apply predictions on test data
 #concat w/ true labels (untouched narrowbandDRD)
-
-SVM_pred = pd.DataFrame(clf.predict(testX), index=testY.index)
+labels = ['narrowband', 'squiggle', 'noise', 'squigglesquarepulsednarrowband' ,'squarepulsednarrowband', 'brightpixel']
+SVM_pred = clf.predict(testX)
 frames = [testY_true, testY, SVM_pred]
-all_y = pd.concat(frames, axis=1)
-all_y.columns =['testY_true', 'testY_SVM', 'prediction']
-
+#all_y = pd.union(frames, axis=1)
+#all_y.columns =['testY_true', 'testY_SVM', 'prediction']
+all_y = pd.DataFrame({'testY_true': testY_true, 'testY_SVM': testY, 'prediction': SVM_pred})
 #whats our accuracy of the first pass classifier?
-#when the narrowband and narrowbandDRD were separate, this was 68%
+#when the narrowband and nrrowbandDRD were separate, this was 68%
 #this is just to validate the accuracy of the 3 classes, where N and NDRD are combined
 total = all_y.shape[0]
 correct = 0
 for i in all_y.index:
     if all_y.ix[i]['testY_SVM'] == all_y.ix[i]['prediction']:
         correct+= 1
-correct/float(total)
+print(correct/float(total))
 
 #TO DO - CHANGE THIS TO A APPLY FUNCITION FOR SPEED
 
@@ -142,10 +147,10 @@ correct/float(total)
 #change the predictions
 
 r2_threshold = 0.996
-
+names = [data['UUID'] for index, data in index_file.iterrows()]
 for i in all_y.index:
     if all_y.ix[i]['prediction'] == 'narrowband': #if SVM returns narrowband, use linear classifier
-        ID = full_df.ix[i][1]+'.dat'
+        ID = names[i]+'.dat.png'
         model, line, x, m, b, std, spectrogram  = narrow_linear_fit(ID) #apply linear function
 #         print model.rsquared_adj, std
         if  model.rsquared_adj > r2_threshold:
@@ -165,18 +170,17 @@ correct = 0
 for i in all_y.index:
     if all_y.ix[i]['testY_true'] == all_y.ix[i]['prediction']:
         correct+= 1
-correct/float(total)
+print(correct/float(total))
 
 #lets look at a confusion matrix to see where our errors are
-
-labels = ['narrowband', 'narrowbanddrd', 'squiggle', 'noise', 'squigglesquarepulsednarrowband' ,'squarepulsednarrowband', 'brightpixel']
+labels = ["brightpixel", "narrowband", "narrowbanddrd", "noise", "squarepulsednarrowband", "squiggle", "squigglesquarepulsednarrowband"]
 cm = confusion_matrix(all_y['testY_true'], all_y['prediction'], labels=labels)
 cm = pd.DataFrame(data=cm, columns=labels, index=labels)
+rows = []
+for i in all_y.index:
+  vect = [names[i], 0.01,0.01,0.01,0.01,0.01,0.01,0.01]
+  vect[labels.index(all_y.ix[i]['prediction'])] = 0.94
+  rows.append(vect)
 
-fig = plt.figure()
-sb.heatmap(cm, annot=True, fmt='g', cmap='Blues')
-
-plt.title('Confusion matrix of the classifier')
-plt.xlabel('Predicted')
-plt.ylabel('True')
-plt.show()
+df2 = pd.DataFrame(rows)
+df2.to_csv("mohit_output.csv", index=False, header=False)

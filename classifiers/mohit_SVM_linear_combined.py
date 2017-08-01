@@ -84,9 +84,8 @@ images = full_df.iloc[:, 2:]
 images[images>0]=1  #convert back to binary (compression changed that)'''
 
 #machine learning!
-dirname = "data_out/sanjoy_seismogram"
+dirname = "data_out/sanjoy_seismogram/"
 images = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
-#images = [tf.image.resize_images(image, [16, 16]) for image in image_list]
 #get subsets of data to test around with
 index_file = pd.read_csv(os.path.join('primary_medium', 'public_list_primary_v3_medium_21june_2017.csv'))
 classifications = {}
@@ -104,7 +103,7 @@ def change_label(x):
     else:
         return x
 
-labels= [change_label(l) for l in labels]
+labels = [change_label(l) for l in labels]
 
 #train test split
 trainX = images[:3000]

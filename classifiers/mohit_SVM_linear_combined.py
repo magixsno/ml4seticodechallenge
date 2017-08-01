@@ -85,8 +85,8 @@ images[images>0]=1  #convert back to binary (compression changed that)'''
 
 #machine learning!
 dirname = "data_out/sanjoy_seismogram_final"
-image_list = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
-images = [tf.image.resize_images(image, [16, 16]) for image in image_list]
+images = [cv2.imread(dirname + filename) for filename in os.listdir(dirname)]
+#images = [tf.image.resize_images(image, [16, 16]) for image in image_list]
 #get subsets of data to test around with
 labels = labels_true #make copy of originals
 

@@ -169,7 +169,7 @@ correct/float(total)
 
 #lets look at a confusion matrix to see where our errors are
 
-labels = ['narrowband', 'narrowbanddrd', 'squiggle', 'noise']
+labels = ['narrowband', 'narrowbanddrd', 'squiggle', 'noise', 'squigglesquarepulsednarrowband' ,'squarepulsednarrowband', 'brightpixel']
 cm = confusion_matrix(all_y['testY_true'], all_y['prediction'], labels=labels)
 cm = pd.DataFrame(data=cm, columns=labels, index=labels)
 

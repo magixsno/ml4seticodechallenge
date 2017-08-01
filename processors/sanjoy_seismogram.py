@@ -37,9 +37,9 @@ python processors/sanjoy_seismogram.py
 
 
 # Find the data in the zip file
-mydatafolder = 'primary_testset_final_v3'
-output_folder = 'data_out/sanjoy_seismogram_final'
-a = zipfile.ZipFile(os.path.join('primary_testset_final_v3.zip'))
+mydatafolder = 'primary_testset_preview_v3'
+output_folder = 'data_out/sanjoy_seismogram_test'
+a = zipfile.ZipFile(os.path.join('pprimary_testset_preview_v3.zip'))
 datalist = a.namelist()
 
 count = 0
